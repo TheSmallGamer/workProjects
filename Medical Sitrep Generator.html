@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical SITREP Report Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            box-sizing: border-box;
+        }
+        .form-group label {
+            flex: 0 0 auto;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group select {
+            flex: 1;
+            margin: 0;
+            margin-right: 10px;
+            box-sizing: border-box;
+        }
+        .form-group input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group input[type="button"]:hover {
+            background-color: #45a049;
+        }
+        .radio-group {
+            margin-bottom: 10px;
+        }
+        .radio-group label {
+            margin-right: 20px;
+        }
+        .conditional-inputs {
+            display: none;
+            margin-top: 10px;
+        }
+        .conditional-inputs input[type="text"] {
+            width: 100%;
+            max-width: 500px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        pre {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        #copyButton {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        #copyButton:hover {
+            background-color: #007bb5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Medical SITREP Report Generator</h1>
+    <form id="incidentForm">
+        <div class="form-group">
+            <label for="time1">Initial Call Time:</label>
+            <input type="text" id="time1" name="time1" style="width: 150px;" required>
+            <label for="timeZone">Time Zone:</label>
+            <select id="timeZone" name="timeZone" required>
+                <option value="">Select Time Zone</option>
+                <option value="CST">CST</option>
+                <option value="EST">EST</option>
+                <option value="PST">PST</option>
+                <!-- Add other time zones as needed -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="employeeType1">Company:</label>
+            <select id="employeeType1" name="employeeType1" required>
+                <option value="">--Select Company--</option>
+                <option value="Flex">Flex</option>
+                <option value="Aramark">Aramark</option>
+                <option value="SolarEdge">SolarEdge</option>
+                <option value="Aerotek">Aerotek</option>
+                <option value="Hallmark">Hallmark</option>
+                <option value="VOLT">VOLT</option>
+                <option value="Staffmark">Staffmark</option>
+                <option value="ONIN">ONIN</option>
+                <option value="Allied Universal">Allied Universal</option>
+                <option value="Facilities">Facilities</option>
+                <option value="Other">Other</option>
+            </select><br>
+            <label for="employee1">Reporting Employee:</label>
+            <input type="text" id="employee1" name="employee1" required>
+            <label for="employeeId1">ID Number:</label>
+            <input type="text" id="employeeId1" name="employeeId1" required>
+        </div>
+
+        <div class="form-group">
+            <label for="employeeType2">Company:</label>
+            <select id="employeeType2" name="employeeType2" required>
+                <option value="">--Select Company--</option>
+                <option value="Flex">Flex</option>
+                <option value="Aramark">Aramark</option>
+                <option value="SolarEdge">SolarEdge</option>
+                <option value="Aerotek">Aerotek</option>
+                <option value="Hallmark">Hallmark</option>
+                <option value="VOLT">VOLT</option>
+                <option value="Staffmark">Staffmark</option>
+                <option value="ONIN">ONIN</option>
+                <option value="Allied Universal">Allied Universal</option>
+                <option value="Facilities">Facilities</option>
+                <option value="Other">Other</option>
+            </select>
+            <label for="employee2">Patient Name:</label>
+            <input type="text" id="employee2" name="employee2" required>
+            <label for="employeeId2">Patient ID Number:</label>
+            <input type="text" id="employeeId2" name="employeeId2" required>
+        </div>
+
+        <div class="form-group">
+            <label for="symptoms">Symptoms:</label>
+            <select id="symptoms" name="symptoms" onchange="checkSymptoms()" required>
+                <option value="">--Select Symptoms--</option>
+                <option value="dizzy">Dizziness</option>
+                <option value="nausea">Nausea</option>
+                <option value="vommit">Vommiting</option>
+                <option value="sweats">Sweating</option>
+                <option value="smallCut">Small Cut</option>
+                <option value="eyeDamage">Something in their eye</option>
+                <option value="jammed">Jammed Body Part</option>
+                <option value="breathing">Difficulty Breathing</option>
+                <option value="tremors">Tremors and/or Shakes</option>
+                <option value="headInjury">Head injury</option>
+                <option value="slip">Slip and Fall</option>
+                <option value="sprain">Sprain</option>
+                <option value="chestPain">Chest Pain</option>
+                <option value="severeHeadache">Severe Headache</option>
+                <option value="labor">Labor</option>
+                <option value="pregnancy complication">Pregnancy Complication</option>
+                <option value="seizure">Seizure</option>
+                <option value="heartAttack">Heart Attack Symptoms</option>
+                <option value="feinting">Feinting</option>
+                <option value="panicAttack">Anxiety/Panic Attack</option>
+                <option value="other">Other</option>
+            </select>
+            <input type="text" id="symptomsDetails" name="symptomsDetails" placeholder="Provide more details" style="display:none; margin-left: 10px;">
+        </div>
+
+        <div class="form-group">
+            <label for="mod">Mod:</label>
+            <select id="mod" name="mod" required>
+                <option value="">--Select Mod--</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="H">H</option>
+                <option value="I">I</option>
+                <option value="J">J</option>
+                <option value="K">K</option>
+                <option value="L">L</option>
+                <option value="M">M</option>
+                <option value="N">N</option>
+                <option value="O">O</option>
+                <option value="P">P</option>
+                <option value="Q">Q</option>
+                <option value="R">R</option>
+                <option value="S">S</option>
+                <option value="T">T</option>
+                <option value="U">U</option>
+                <option value="V">V</option>
+                <option value="W">W</option>
+            </select>
+            <label for="location">Exact Location:</label>
+            <input type="text" id="location" name="location" required>
+        </div>
+
+        <div class="form-group">
+            <label for="time2">Time Reported to Supervisor:</label>
+            <input type="text" id="time2" name="time2" required style="width: 150px;">
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="Generate SITREP" onclick="generateReport()">
+        </div>
+    </form>
+
+    <h2>SITREP Report:</h2>
+    <pre id="sitrepReport"></pre>
+    <button id="copyButton" onclick="copyToClipboard()">Copy Report</button>
+
+    <script>
+        function checkSymptoms() {
+            var symptoms = document.getElementById("symptoms").value;
+            var symptomsDetails = document.getElementById("symptomsDetails");
+            if (symptoms === "smallCut" || symptoms === "jammed" || symptoms === "sprain") {
+                symptomsDetails.style.display = "inline-block";
+            } else {
+                symptomsDetails.style.display = "none";
+            }
+        }
+
+        function generateReport() {
+            var time1 = document.getElementById("time1").value;
+            var timeZone = document.getElementById("timeZone").value;
+            var employeeType1 = document.getElementById("employeeType1").value;
+            var employee1 = document.getElementById("employee1").value;
+            var employeeId1 = document.getElementById("employeeId1").value;
+            var employeeType2 = document.getElementById("employeeType2").value;
+            var employee2 = document.getElementById("employee2").value;
+            var employeeId2 = document.getElementById("employeeId2").value;
+            var symptoms = document.getElementById("symptoms").value;
+            var symptomsDetails = document.getElementById("symptomsDetails").value;
+            var mod = document.getElementById("mod").value;
+            var location = document.getElementById("location").value;
+            var time2 = document.getElementById("time2").value;
+            var report = "Initial Call Time: " + time1 + " " + timeZone + "\n"
+                + "Company: " + employeeType1 + "\n"
+                + "Reporting Employee: " + employee1 + "\n"
+                + "Employee ID: " + employeeId1 + "\n"
+                + "Company: " + employeeType2 + "\n"
+                + "Patient Name: " + employee2 + "\n"
+                + "Patient ID: " + employeeId2 + "\n"
+                + "Symptoms: " + symptoms + "\n"
+                + (symptomsDetails ? "Details: " + symptomsDetails + "\n" : "")
+                + "Mod: " + mod + "\n"
+                + "Location: " + location + "\n"
+                + "Time Reported to Supervisor: " + time2 + "\n";
+            document.getElementById("sitrepReport").textContent = report;
+        }
+
+        function copyToClipboard() {
+            var reportText = document.getElementById("sitrepReport").textContent;
+            navigator.clipboard.writeText(reportText).then(function() {
+                alert('SITREP Report copied to clipboard');
+            }, function(err) {
+                alert('Error in copying text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
+
