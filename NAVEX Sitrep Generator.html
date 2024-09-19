@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Sitrep Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            box-sizing: border-box;
+        }
+        .form-group label {
+            flex: 0 0 auto;
+            margin-right: 10px;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group select {
+            flex: 1;
+            margin: 0;
+            margin-right: 10px;
+            box-sizing: border-box;
+        }
+        .form-group input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 150px;
+        }
+        .form-group input[type="button"]:hover {
+            background-color: #45a049;
+        }
+        .radio-group {
+            margin-bottom: 10px;
+        }
+        .radio-group label {
+            margin-right: 20px;
+            margin-left: 20px;
+        }
+        .conditional-inputs {
+            display: none;
+            margin-top: 10px;
+        }
+        .conditional-inputs input[type="text"] {
+            width: 100%;
+            max-width: 500px;
+            margin: 5px 0;
+            margin-right: 10px;
+            box-sizing: border-box;
+        }
+        pre {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        #copyButton {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 150px;
+            margin-left: 10px;
+        }
+        #copyButton:hover {
+            background-color: #007bb5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Medical Sitrep Generator</h1>
+    <form id="incidentForm">
+        <div class="form-group">
+            <label for="time1">Initial Call Time:</label>
+            <input type="time" id="time1" name="time1" style="width: 150px;" required>
+            <label for="timeZone">Time Zone:</label>
+            <select id="timeZone" name="timeZone" required>
+                <option value="">--Select Time Zone--</option>
+                <option value="CST">CST</option>
+                <option value="EST">EST</option>
+                <option value="PST">PST</option>
+                <!-- Add other time zones as needed -->
+            </select>
+        </div>
+
+    	<div class="form-group">
+        	<label for="employeeType1">Company:</label>
+        	<select id="employeeType1" name="employeeType1" required class="narrow-select">
+            	<option value="">--Select Company--</option>
+            	<option value="Flex">Flex</option>
+            	<option value="Aramark">Aramark</option>
+            	<option value="SolarEdge">SolarEdge</option>
+            	<option value="VOLT">VOLT</option>
+            	<option value="Staffmark">Staffmark</option>
+            	<option value="ONIN">ONIN</option>
+            	<option value="Allied Universal">Allied Universal</option>
+        	</select><br>
+        	<label for="employee1">Reporting Employee:</label>
+        	<input type="text" id="employee1" name="employee1" required>
+        	<label for="employeeId1">ID Number:</label>
+        	<input type="text" id="employeeId1" name="employeeId1" required>
+    	</div>
+
+    	<div class="form-group">       	 
+        	<label for="employeeType2">Company:</label>
+        	<select id="employeeType2" name="employeeType2" required class="narrow-select">
+            	<option value="">--Select Company--</option>
+            	<option value="Flex">Flex</option>
+            	<option value="Aramark">Aramark</option>
+            	<option value="SolarEdge">SolarEdge</option>
+            	<option value="VOLT">VOLT</option>
+            	<option value="Staffmark">Staffmark</option>
+            	<option value="ONIN">ONIN</option>
+            	<option value="Allied Universal">Allied Universal</option>
+        	</select>
+        	<label for="employee2">Patient Name:</label>
+        	<input type="text" id="employee2" name="employee2" required>
+        	<label for="employeeId2">Patient ID Number:</label>
+        	<input type="text" id="employeeId2" name="employeeId2" required>
+    	</div>
+
+        <div class="form-group">
+            <label for="symptoms">Symptoms:</label>
+            <select id="symptoms" name="symptoms" onchange="showSymptomDetails()" required>
+                <option value="">--Select Symptom--</option>
+                <option value="fever">Fever</option>
+                <option value="cough">Cough</option>
+                <option value="severe headache">Severe Headache</option>
+                <option value="small cut">Small Cut</option>
+                <option value="dizziness">Dizziness</option>
+                <option value="nausea">Nausea</option>
+                <option value="vomiting">Vomiting</option>
+                <option value="cramping">Cramping</option>
+                <option value="low sugar">Low Sugar</option>
+                <option value="anxiety/panic attack">Anxiety/Panic Attack</option>
+                <option value="epileptic episode">Epileptic Episode</option>
+                <option value="jammed body part">Jammed Body Part</option>
+                <option value="eye damage">Eye Damage</option>
+                <option value="heat stroke">Heat Stroke</option>
+                <option value="seizure">Seizure</option>
+                <option value="heart attack">Heart Attack</option>
+                <option value="stroke">Stroke</option>
+                <option value="labor">Labor</option>
+                <option value="possible pregnancy complication">Possible Pregnancy Complication</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <!-- Conditional input field for extra details -->
+        <div id="symptomDetails" class="form-group conditional-inputs">
+            <label for="symptomDetailsInput" id="symptomDetailsLabel"></label>
+            <input type="text" id="symptomDetailsInput" placeholder="">
+        </div>
+
+        <div class="form-group">
+        	<label for="mod">Mod:</label>
+        	<select id="mod" name="mod" required class="narrow-select">
+            	<option value="">--Select Mod--</option>
+            	<option value="A">A</option>
+            	<option value="B">B</option>
+            	<option value="C">C</option>
+            	<option value="D">D</option>
+            	<option value="E">E</option>
+            	<option value="F">F</option>
+            	<option value="G">G</option>
+            	<option value="H">H</option>
+            	<option value="I">I</option>
+            	<option value="J">J</option>
+            	<option value="K">K</option>
+            	<option value="L">L</option>
+            	<option value="M">M</option>
+            	<option value="N">N</option>
+            	<option value="O">O</option>
+            	<option value="P">P</option>
+            	<option value="Q">Q</option>
+            	<option value="R">R</option>
+            	<option value="S">S</option>
+        	</select>
+        	<label for="column">Column:</label>
+        	<input type="text" id="column" name="column" required>
+    	</div>
+
+    	<div class="form-group">
+        	<label for="time2">Time ERT Contacted:</label>
+        	<input type="time" id="time2" name="time2" required>
+    	</div>
+
+    	<div class="form-group">
+        	<label for="ertMember">Responding ERT Member:</label>
+        	<input type="text" id="ertMember" name="ertMember" required>
+    	</div>
+    
+    	<div class="form-group">
+        	<label for="time3">ERT Team Time of Arrival:</label>
+        	<input type="time" id="time3" name="time3" required>
+    	</div>
+
+        <div class="radio-group">
+            <label><input type="radio" name="status" value="stayingAtWork" onclick="showConditionalInputs()"> Staying at Work</label>
+            <label><input type="radio" name="status" value="goingHome" onclick="showConditionalInputs()"> Going Home</label>
+            <label><input type="radio" name="status" value="emsResponded" onclick="showConditionalInputs()"> EMS Responded</label>
+        </div>
+
+        <div id="stayingAtWorkInputs" class="conditional-inputs">
+            <div class="form-group">
+                <label for="allClear">All Clear:</label>
+                <input type="time" id="allClear" name="allClear">
+            </div>
+        </div>
+
+        <div id="goingHomeInputs" class="conditional-inputs">
+            <div class="form-group">
+                <label for="leftSite">Left Site at:</label>
+                <input type="time" id="leftSite" name="leftSite">
+                <label for="allClearGoHome">All Clear:</label>
+                <input type="time" id="allClearGoHome" name="allClearGoHome">
+            </div>
+        </div>
+
+        <div id="emsRespondedInputs" class="conditional-inputs">
+            <div class="form-group">
+                <label for="emsArrived">EMS Arrived:</label>
+                <input type="time" id="emsArrived" name="emsArrived">
+                <label for="hospitalName">Hospital Name:</label>
+                <input type="text" id="hospitalName" name="hospitalName">
+                <label for="unitNumber">Unit Number:</label>
+                <input type="text" id="unitNumber" name="unitNumber">
+            </div>
+            <div class="form-group">
+                <label for="leftSiteAt">Left Site at:</label>
+                <input type="time" id="leftSiteAt" name="leftSiteAt">
+                <label for="allClearEMS">All Clear:</label>
+                <input type="time" id="allClearEMS" name="allClearEMS">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="Generate Sitrep" onclick="generateReport()">
+            <input type="button" id="copyButton" value="Copy Sitrep" onclick="copyReport()">
+        </div>
+    </form>
+
+    <h2>Generated Sitrep:</h2>
+    <pre id="reportOutput"></pre>
+
+    <script>
+        function showSymptomDetails() {
+            var symptom = document.getElementById("symptoms").value;
+            var detailsDiv = document.getElementById("symptomDetails");
+            var detailsLabel = document.getElementById("symptomDetailsLabel");
+            var detailsInput = document.getElementById("symptomDetailsInput");
+
+            // Hide details input by default
+            detailsDiv.style.display = "none";
+
+            // Only show input for certain symptoms
+            if (["small cut", "cramping", "jammed body part", "eye damage", "other"].includes(symptom)) {
+                detailsDiv.style.display = "flex";
+                if (symptom === "small cut") {
+                    detailsLabel.textContent = "Location of Cut:";
+                    detailsInput.placeholder = "e.g., on their left hand";
+                } else if (symptom === "cramping") {
+                    detailsLabel.textContent = "Location of Cramping:";
+                    detailsInput.placeholder = "e.g., abdominal cramping";
+                } else if (symptom === "jammed body part") {
+                    detailsLabel.textContent = "Jammed Body Part:";
+                    detailsInput.placeholder = "e.g., jammed finger on right hand";
+                } else if (symptom === "eye damage") {
+                    detailsLabel.textContent = "Details of Eye Damage:";
+                    detailsInput.placeholder = "e.g., left eye was exposed to chemicals";
+                } else if (symptom === "other") {
+                    detailsLabel.textContent = "Details:";
+                    detailsInput.placeholder = "Please specify";
+                }
+            }
+        }
+
+        function showConditionalInputs() {
+            // Hide all conditional inputs
+            document.querySelectorAll('.conditional-inputs').forEach(div => div.style.display = 'none');
+
+            // Show the relevant inputs based on selected radio button
+            const selectedValue = document.querySelector('input[name="status"]:checked').value;
+            if (selectedValue) {
+                document.getElementById(`${selectedValue}Inputs`).style.display = 'block';
+            }
+        }
+
+        function generateReport() {
+            // Get form values
+            var time1 = document.getElementById('time1').value;
+            var timeZone = document.getElementById('timeZone').value;
+            var employeeType1 = document.getElementById('employeeType1').value;
+            var employee1 = document.getElementById('employee1').value;
+            var employeeId1 = document.getElementById('employeeId1').value;
+            var employeeType2 = document.getElementById('employeeType2').value;
+            var employee2 = document.getElementById('employee2').value;
+            var employeeId2 = document.getElementById('employeeId2').value;
+            var symptoms = document.getElementById('symptoms').value;
+            var mod = document.getElementById('mod').value;
+            var column = document.getElementById('column').value;
+            var time2 = document.getElementById('time2').value;
+            var ertMember = document.getElementById('ertMember').value;
+            var time3 = document.getElementById('time3').value;
+
+            // Get symptom details if necessary
+            var symptomDetails = '';
+            if (["small cut", "cramping", "jammed body part", "eye damage", "other"].includes(symptoms)) {
+                symptomDetails = document.getElementById('symptomDetailsInput').value;
+            }
+
+            // Define which symptoms use "sustained" and which use "experiencing"
+            var sustainedSymptoms = ["small cut", "jammed body part", "eye damage"];
+            var experiencingSymptoms = ["dizziness", "nausea", "vomiting", "cramping", "low sugar", "labor",];
+            var experiencingASymptoms = ["fever", "cough", "severe headache", "heat stroke", "seizure", "heart attack", "stroke", "possible pregnancy complication"]; 
+            var experiencingAnSymptoms = ["anxiety/panic attack", "epileptic episode"]
+
+            // Determine the correct phrasing for the symptom
+            var symptomPhrase = "";
+            if (sustainedSymptoms.includes(symptoms)) {
+                symptomPhrase = `who had sustained a ${symptoms}${symptomDetails ? ' ' + symptomDetails : ''}`;
+            } else if (experiencingSymptoms.includes(symptoms)) {
+                symptomPhrase = `who was experiencing ${symptoms}${symptomDetails ? ' (' + symptomDetails + ')' : ''}`;
+            } else if (experiencingASymptoms.includes(symptoms)) {
+                symptomPhrase = `who was experiencing a ${symptoms}${symptomDetails ? ' (' + symptomDetails + ')' : ''}`;
+            } else if (experiencingAnSymptoms.includes(symptoms)) {
+                symptomPhrase = `who was experiencing an ${symptoms}${symptomDetails ? ' (' + symptomDetails + ')' : ''}`;
+            } else {
+                symptomPhrase = `who was experiencing ${symptoms}`;
+            }
+
+            // Check radio button value
+            var status = document.querySelector('input[name="status"]:checked')?.value || '';
+
+            // Initialize additionalDetails variable
+            var additionalDetails = '';
+
+            // Handle the radio button selected value
+            if (status === 'stayingAtWork') {
+                var allClear = document.getElementById('allClear').value;
+                additionalDetails = `After assessing the patient, the all clear was given at ${allClear} ${timeZone}, and it was reported that ${employee2} would be returning to work.`;
+            } else if (status === 'goingHome') {
+                var leftSite = document.getElementById('leftSite').value;
+                var allClearGoHome = document.getElementById('allClearGoHome').value;
+                additionalDetails = `At ${leftSite} ${timeZone}, it was reported that ${employee2} left the site and went home after being assisted by the ERT team. The All Clear was given at ${allClearGoHome} ${timeZone}.`;
+            } else if (status === 'emsResponded') {
+                var emsArrived = document.getElementById('emsArrived').value;
+                var hospitalName = document.getElementById('hospitalName').value;
+                var unitNumber = document.getElementById('unitNumber').value;
+                var leftSiteAt = document.getElementById('leftSiteAt').value;
+                var allClearEMS = document.getElementById('allClearEMS').value;
+                additionalDetails = `After assessing the situation, the ERT Team requested EMS assistance, and 911 was quickly contacted. Ambulance #${unitNumber} arrived on site at ${emsArrived} ${timeZone} and the EMS memebers were brought to the patient. After EMS assisted the patient, it was reported that they would be going to ${hospitalName}. They left the site at ${leftSiteAt} ${timeZone}, and the All Clear was given at ${allClearEMS} ${timeZone}.`;
+            }
+
+
+            // Generate report content
+            var reportContent = `At ${time1} ${timeZone}, the RSOC (Regional Security Operations Center) received a call from ${employeeType1} employee ${employee1} (${employeeId1}) regarding ${employeeType2} employee ${employee2} (${employeeId2}) ${symptomPhrase} in Mod ${mod}, nearby column ${column}. The ERT team was contacted through the Push To Talk phone at ${time2} ${timeZone}, and ${ertMember} responded en route at ${time3} ${timeZone}. ${additionalDetails}
+            `.trim();
+
+            // Display report content
+            document.getElementById('reportOutput').textContent = reportContent;
+        }
+
+        function copyReport() {
+            var reportContent = document.getElementById('reportOutput').textContent;
+            navigator.clipboard.writeText(reportContent).then(function() {
+                alert("Report copied to clipboard!");
+            }).catch(function(error) {
+                alert("Failed to copy report: " + error);
+            });
+        }
+    </script>
+</body>
+</html>
